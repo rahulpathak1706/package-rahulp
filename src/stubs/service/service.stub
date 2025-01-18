@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Services;
+
+use App\Repositories\Interfaces\{{modelName}}RepositoryInterface;
+
+class {{modelName}}Service
+{
+    /**
+     * @var {{modelName}}RepositoryInterface
+     */
+    protected ${{modelVariable}}Repository;
+
+    /**
+     * Constructor
+     *
+     * @param {{modelName}}RepositoryInterface ${{modelVariable}}Repository
+     */
+    public function __construct({{modelName}}RepositoryInterface ${{modelVariable}}Repository)
+    {
+        $this->{{modelVariable}}Repository = ${{modelVariable}}Repository;
+    }
+
+    /**
+     * Get list of {{modelVariable}}s with pagination and filters
+     *
+     * @param array $filters Filter parameters
+     * @return array
+     */
+    public function list(array $filters)
+    {
+        $query = $this->{{modelVariable}}Repository->getAllWithFilters($filters);
+
+        $filters['sort_field'] = $filters['sort_field'] ?? 'created_at';
+        $filters['sort_order'] = $filters['sort_order'] ?? 'DESC';
+
+        $query->orderBy($filters['sort_field'], $filters['sort_order']);
+
+        return [
+            '{{modelVariable}}s' => $query->paginate($filters['per_page'] ?? 10),
+        ];
+    }
+
+    /**
+     * Create a new {{modelVariable}}
+     *
+     * @param array $data {{modelName}} data
+     * @return \App\Models\{{modelName}}
+     */
+    public function create(array $data)
+    {
+        return $this->{{modelVariable}}Repository->create($data);
+    }
+
+    /**
+     * Update an existing {{modelVariable}}
+     *
+     * @param int $id {{modelName}} ID
+     * @param array $data Updated {{modelVariable}} data
+     * @return \App\Models\{{modelName}}
+     */
+    public function update(int $id, array $data)
+    {
+        return $this->{{modelVariable}}Repository->update($id, $data);
+    }
+
+    /**
+     * Find a {{modelVariable}} by ID
+     *
+     * @param int $id {{modelName}} ID
+     * @return \App\Models\{{modelName}}
+     */
+    public function find(int $id)
+    {
+        return $this->{{modelVariable}}Repository->find($id);
+    }
+
+    /**
+     * Delete a {{modelVariable}}
+     *
+     * @param int $id {{modelName}} ID
+     * @return bool
+     */
+    public function delete(int $id)
+    {
+        return $this->{{modelVariable}}Repository->delete($id);
+    }
+}

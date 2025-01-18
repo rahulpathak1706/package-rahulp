@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\{{modelName}};
+use App\Services\{{modelName}}Service;
+use Illuminate\Http\Request;
+
+class {{modelName}}Controller extends Controller
+{
+    /**
+     * @var {{modelName}}Service
+     */
+    protected ${{modelVariable}}Service;
+
+    /**
+     * Constructor
+     *
+     * @param {{modelName}}Service ${{modelVariable}}Service
+     */
+    public function __construct({{modelName}}Service ${{modelVariable}}Service)
+    {
+        $this->{{modelVariable}}Service = ${{modelVariable}}Service;
+    }
+
+    /**
+     * Get paginated list of {{modelVariable}}s
+     *
+     * @param Request $request Request object containing:
+     *                        - search: Optional search string
+     *                        - sort_field: Field to sort by
+     *                        - sort_order: Sort direction (ASC/DESC)
+     *                        - per_page: Items per page
+     *                        - page: Current page number
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        try {
+            $result = $this->{{modelVariable}}Service->list($request->all());
+            return ok('{{modelName}}s retrieved successfully', $result);
+        } catch (\Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    /**
+     * Store a newly created {{modelVariable}}
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                {{validationRules}}
+            ]);
+
+            ${{modelVariable}} = $this->{{modelVariable}}Service->create($validatedData);
+            return ok('{{modelName}} created successfully', ${{modelVariable}}, 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return error($e->getMessage(), $e->errors(), 'validation');
+        } catch (\Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified {{modelVariable}}
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show($id)
+    {
+        try {
+            ${{modelVariable}} = $this->{{modelVariable}}Service->find($id);
+            return ok('{{modelName}} retrieved successfully', ${{modelVariable}});
+        } catch (\Exception $e) {
+            return error($e->getMessage(), [], 'notfound');
+        }
+    }
+
+    /**
+     * Update the specified {{modelVariable}}
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $validatedData = $request->validate([
+{{validationUpdateRules}}
+            ]);
+
+            ${{modelVariable}} = $this->{{modelVariable}}Service->update($id, $validatedData);
+            return ok('{{modelName}} updated successfully', ${{modelVariable}});
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return error($e->getMessage(), $e->errors(), 'validation');
+        } catch (\Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified {{modelVariable}}
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            $this->{{modelVariable}}Service->delete($id);
+            return ok('{{modelName}} deleted successfully');
+        } catch (\Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+}

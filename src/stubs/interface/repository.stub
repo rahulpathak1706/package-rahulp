@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Repositories\Interfaces;
+
+interface {{modelName}}RepositoryInterface
+{
+    /**
+     * Get all {{modelVariable}}s with applied filters
+     *
+     * @param array $filters Array of filter parameters
+     *                      Possible filters:
+     *                      - search: string to search in relevant fields
+     *                      - sort_field: field to sort by
+     *                      - sort_order: ASC or DESC
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getAllWithFilters(array $filters);
+
+    /**
+     * Create a new {{modelVariable}} record
+     *
+     * @param array $data Array of {{modelVariable}} data
+     * @return \App\Models\{{modelName}}
+     */
+    public function create(array $data);
+
+    /**
+     * Update an existing {{modelVariable}} record
+     *
+     * @param int $id ID of the {{modelVariable}} to update
+     * @param array $data Array of {{modelVariable}} data to update
+     * @return \App\Models\{{modelName}}
+     */
+    public function update(int $id, array $data);
+
+    /**
+     * Find a {{modelVariable}} by ID
+     *
+     * @param int $id ID of the {{modelVariable}} to find
+     * @return \App\Models\{{modelName}}
+     */
+    public function find(int $id);
+
+    /**
+     * Delete a {{modelVariable}} by ID
+     *
+     * @param int $id ID of the {{modelVariable}} to delete
+     * @return bool
+     */
+    public function delete(int $id);
+}
