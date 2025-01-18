@@ -197,13 +197,9 @@ PUT /api/posts/{id}
 DELETE /api/posts/{id}
 ```
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
 ## Security
 
-If you discover any security related issues, please email your@email.com instead of using the issue tracker.
+If you discover any security related issues, please email rahulspathak17@gmail.com instead of using the issue tracker.
 
 ## License
 
