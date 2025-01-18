@@ -36,12 +36,9 @@ class {{modelName}}Controller extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $result = $this->{{modelVariable}}Service->list($request->all());
-            return ok('{{modelName}}s retrieved successfully', $result);
-        } catch (\Exception $e) {
-            return error($e->getMessage());
-        }
+        $result = $this->{{modelVariable}}Service->list($request->all());
+
+        return ok('{{modelName}}s retrieved successfully', ['data' => $result]);
     }
 
     /**
@@ -52,18 +49,13 @@ class {{modelName}}Controller extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validate([
+        $validatedData = $request->validate([
 {{validationRules}}
-            ]);
+        ]);
 
-            ${{modelVariable}} = $this->{{modelVariable}}Service->create($validatedData);
-            return ok('{{modelName}} created successfully', ${{modelVariable}}, 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return error($e->getMessage(), $e->errors(), 'validation');
-        } catch (\Exception $e) {
-            return error($e->getMessage());
-        }
+        ${{modelVariable}} = $this->{{modelVariable}}Service->create($validatedData);
+
+        return ok('{{modelName}} created successfully', ['data' => ${{modelVariable}}]);
     }
 
     /**
@@ -74,12 +66,9 @@ class {{modelName}}Controller extends Controller
      */
     public function show($id)
     {
-        try {
-            ${{modelVariable}} = $this->{{modelVariable}}Service->find($id);
-            return ok('{{modelName}} retrieved successfully', ${{modelVariable}});
-        } catch (\Exception $e) {
-            return error($e->getMessage(), [], 'notfound');
-        }
+        ${{modelVariable}} = $this->{{modelVariable}}Service->find($id);
+
+        return ok('{{modelName}} retrieved successfully', ['data' => ${{modelVariable}}]);
     }
 
     /**
@@ -91,18 +80,13 @@ class {{modelName}}Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $validatedData = $request->validate([
-                {{validationUpdateRules}}
-            ]);
+        $validatedData = $request->validate([
+{{validationUpdateRules}}
+        ]);
 
-            ${{modelVariable}} = $this->{{modelVariable}}Service->update($id, $validatedData);
-            return ok('{{modelName}} updated successfully', ${{modelVariable}});
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return error($e->getMessage(), $e->errors(), 'validation');
-        } catch (\Exception $e) {
-            return error($e->getMessage());
-        }
+        ${{modelVariable}} = $this->{{modelVariable}}Service->update($id, $validatedData);
+
+        return ok('{{modelName}} updated successfully', ['data' => ${{modelVariable}}]);
     }
 
     /**
@@ -113,11 +97,8 @@ class {{modelName}}Controller extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $this->{{modelVariable}}Service->delete($id);
-            return ok('{{modelName}} deleted successfully');
-        } catch (\Exception $e) {
-            return error($e->getMessage());
-        }
+        $this->{{modelVariable}}Service->delete($id);
+        
+        return ok('{{modelName}} deleted successfully', []);
     }
 }
